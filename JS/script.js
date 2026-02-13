@@ -8,7 +8,6 @@ const buttonnext = document.querySelector('.btn_next');
 
 let searchpokemon = 1;
 
-// 🔹 itens fora da API
 const localItems = {
     "lula": {
         id: 666,
@@ -17,10 +16,10 @@ const localItems = {
     }
 };
 
-// 🔹 busca API → se falhar, busca local
+
 const fetchpokemon = async (pokemon) => {
 
-    // tenta API
+   
     const response = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${pokemon}`
     );
@@ -29,7 +28,7 @@ const fetchpokemon = async (pokemon) => {
         return await response.json();
     }
 
-    // fallback local
+    
     if (localItems[pokemon.toLowerCase()]) {
         return localItems[pokemon.toLowerCase()];
     }
@@ -37,7 +36,7 @@ const fetchpokemon = async (pokemon) => {
     return null;
 };
 
-// 🔹 renderização
+
 const renderpokemon = async (pokemon) => {
     pokemonname.innerHTML = 'Loading...';
     pokemonnumber.innerHTML = '';
@@ -56,7 +55,7 @@ const renderpokemon = async (pokemon) => {
     pokemonnumber.innerHTML = data.id;
     input.value = '';
 
-    // veio da API
+  
     if (data.sprites) {
         const animated =
             data.sprites.versions['generation-v']['black-white']
@@ -67,13 +66,13 @@ const renderpokemon = async (pokemon) => {
 
         searchpokemon = data.id;
     }
-    // veio do local
+    
     else {
         pokemonimagem.src = data.sprite;
     }
 };
 
-// 🔹 eventos
+
 form.addEventListener('submit', (event) => {
     event.preventDefault();
     renderpokemon(input.value.toLowerCase());
@@ -91,5 +90,4 @@ buttonnext.addEventListener('click', () => {
     renderpokemon(searchpokemon);
 });
 
-// 🔹 inicial
 renderpokemon(searchpokemon);
